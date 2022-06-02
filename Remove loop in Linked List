@@ -1,0 +1,44 @@
+class Solution
+{
+    public:
+    //Function to remove a loop in the linked list.
+    void util(Node* loop_node,Node* head){
+        Node* ptr1 = loop_node;
+        Node* ptr2 = loop_node;
+        int k = 1,i;
+        while(ptr1->next!=ptr2){
+            ptr1 = ptr1->next;
+            k++;
+        }
+        ptr1 = head;
+        ptr2 = head;
+        for(i=0;i<k;i++){
+            ptr2 = ptr2->next;
+        }
+        
+        while(ptr2!=ptr1){
+            ptr1 = ptr1->next;
+            ptr2 = ptr2->next;
+        }
+        while(ptr2->next!=ptr1)
+            ptr2 = ptr2->next;
+        
+        ptr2->next = NULL;
+    }
+    void removeLoop(Node* head)
+    {
+        // code here
+        // just remove the loop without losing any nodes
+        
+        Node* slow = head;
+        Node* fast = head;
+        while(slow && fast && fast->next){
+            slow = slow->next;
+            fast = fast->next->next;
+            if(slow==fast){
+                util(slow,head);
+            }
+        }
+        return;
+    }
+};
